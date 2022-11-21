@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="go4LunchThemeColor">#ff8a50</color>
+    <color name="Open">#01A309</color>
+    <color name="Closed">#D80000</color>
+    <color name="Activate">#20A463</color>
+</resources>
