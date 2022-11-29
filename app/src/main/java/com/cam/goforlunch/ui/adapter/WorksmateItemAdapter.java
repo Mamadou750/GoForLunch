@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cam.goforlunch.R;
+import com.cam.goforlunch.model.Restaurant;
 import com.cam.goforlunch.model.User;
 import com.squareup.picasso.Picasso;
 
@@ -21,13 +22,18 @@ import butterknife.ButterKnife;
 
 public class WorksmateItemAdapter extends RecyclerView.Adapter<WorksmateItemAdapter.WorksmateViewHolder> {
 
-    private final List<User> workmatesList;
+    private  List<User> workmatesList;
     private final Context context;
 
-    public WorksmateItemAdapter(List<User> workmatesList, Context context) {
+    public WorksmateItemAdapter(@NonNull final List<User> workmatesList, @NonNull final Context context) {
 
         this.workmatesList = workmatesList;
         this.context = context;
+    }
+
+    public void updateUsers(@NonNull final List<User> workmatesList) {
+        this.workmatesList = workmatesList;
+        notifyDataSetChanged();
     }
 
     @NonNull

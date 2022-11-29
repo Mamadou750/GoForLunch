@@ -78,7 +78,7 @@ public class RestaurantRepository {
         );
         addRestaurant(
 
-                "restau 2",
+                "restau2",
                 "adrrr",
                 3,
                 15,

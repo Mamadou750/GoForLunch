@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cam.goforlunch.R;
 import com.cam.goforlunch.model.Restaurant;
 import com.cam.goforlunch.ui.ViewModel.RestaurantViewModel;
+import com.cam.goforlunch.ui.ViewModel.RestaurantViewModelFactory;
 import com.cam.goforlunch.ui.adapter.RestaurantItemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RestaurantListFragment extends Fragment implements RestaurantItemAdapter.RecyclerViewOnClickListener {
 
@@ -36,16 +38,17 @@ public class RestaurantListFragment extends Fragment implements RestaurantItemAd
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        viewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
+
         return inflater.inflate(R.layout.fragment_list, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        listRestaurant =  getView().findViewById(R.id.list_restaurants);
+        listRestaurant =  requireView().findViewById(R.id.list_restaurants);
+        viewModel = new ViewModelProvider(this, RestaurantViewModelFactory.getFactoryRestaurantInstance()).get(RestaurantViewModel.class);
 
-        viewModel.getRestaurants().observe(this, list ->{
+        viewModel.getRestaurants().observe(getViewLifecycleOwner(), list ->{
             updateRestaurant(list);
         } );
         listRestaurant.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

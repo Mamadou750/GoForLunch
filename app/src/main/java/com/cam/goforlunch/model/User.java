@@ -2,7 +2,7 @@ package com.cam.goforlunch.model;
 
 import java.util.List;
 
- public class User {
+public class User {
     private String userId;
     private String username;
     private String urlPicture;

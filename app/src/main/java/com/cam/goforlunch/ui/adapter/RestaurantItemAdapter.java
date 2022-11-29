@@ -27,21 +27,24 @@ public class RestaurantItemAdapter extends RecyclerView.Adapter <RestaurantItemA
         void recyclerViewOnClick(int position);
     }
 
-    private final List<Restaurant> restaurantsList;
+    private  List<Restaurant> restaurantsList;
     private final RecyclerViewOnClickListener listener;
-    private List<Restaurant> restaurants;
-
-    public void updateRestaurants(@NonNull final List<Restaurant> restaurants) {
-        this.restaurants = restaurants;
-        notifyDataSetChanged();
-    }
 
 
-    public RestaurantItemAdapter(List<Restaurant> restaurantsList, RecyclerViewOnClickListener listener) {
+
+
+
+    public RestaurantItemAdapter(@NonNull final List<Restaurant> restaurantsList, @NonNull final RecyclerViewOnClickListener listener) {
 
         this.restaurantsList = restaurantsList;
         this.listener = listener;
 
+    }
+
+
+    public void updateRestaurants(@NonNull final List<Restaurant> restaurantsList) {
+        this.restaurantsList = restaurantsList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -102,7 +105,7 @@ public class RestaurantItemAdapter extends RecyclerView.Adapter <RestaurantItemA
 
             restaurantName.setText(restaurant.getName());
             restaurantAddress.setText(restaurant.getAddress());
-            restaurantDistance.setText(restaurant.getDistance());
+            restaurantDistance.setText(Integer.toString(restaurant.getDistance()));
             restaurantWorkmatesNumber.setText(String.valueOf(restaurant.getNbWorkmates()));
 
             // Set text depending on restaurant's opening hours

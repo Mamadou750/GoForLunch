@@ -1,4 +1,4 @@
-package com.cam.goforlunch.ui.avtivities;
+package com.cam.goforlunch.ui.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
