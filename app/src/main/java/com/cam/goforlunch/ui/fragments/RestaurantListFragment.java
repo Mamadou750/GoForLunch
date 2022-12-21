@@ -1,5 +1,7 @@
 package com.cam.goforlunch.ui.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +49,12 @@ public class RestaurantListFragment extends Fragment implements RestaurantItemAd
 
         listRestaurant =  requireView().findViewById(R.id.list_restaurants);
         viewModel = new ViewModelProvider(this, RestaurantViewModelFactory.getFactoryRestaurantInstance()).get(RestaurantViewModel.class);
-
+// methode pour recup dans sharedPrefenrencies location et ensuite faire appell fetch restaurant
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String latitude = sharedPref.getString(MapsFragment.SHARED_PREF_CURRENT_LATITUDE, "");
+        String longitude= sharedPref.getString(MapsFragment.SHARED_PREF_CURRENT_LONGITUDE, "");
+        String location = latitude + "," + longitude;
+        viewModel.fetchRestaurant(location);
         viewModel.getRestaurants().observe(getViewLifecycleOwner(), list ->{
             updateRestaurant(list);
         } );
@@ -65,7 +72,6 @@ public class RestaurantListFragment extends Fragment implements RestaurantItemAd
         lRestaurants = (ArrayList<Restaurant>) restaurants;
 
         adapter.updateRestaurants(lRestaurants);
-
 
     }
 

@@ -1,5 +1,7 @@
 package com.cam.goforlunch.model;
 
+import com.cam.goforlunch.BuildConfig;
+
 import java.io.Serializable;
 
 public class Restaurant implements Serializable {
@@ -118,7 +120,7 @@ public class Restaurant implements Serializable {
     }
 
     // Create a Restaurant object and fill it with data from Search Results and Details Results
-    /*public Restaurant createRestaurantfromAPIResults(GooglePlaces.Result result) {
+    public Restaurant createRestaurantfromAPIResults(GooglePlaces.Result result) {
 
         String imageBaseUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=300&photoreference=";
 
@@ -136,11 +138,11 @@ public class Restaurant implements Serializable {
 
         if (result.getPhotos() != null) {
             restaurant.imageUrl = imageBaseUrl + result.getPhotos().get(0).getPhotoReference()
-                    + "&key=" + BuildConfig.google_apikey;
+                    + "&key=" + BuildConfig.MAPS_API_KEY;
         }
         return restaurant;
 
-    }*/
+    }
 
     // Add data from Details Request to Restaurant object
     /*public void addDataFromDetailsRequest(Restaurant restaurant, GooglePlacesDetails.Result result) {

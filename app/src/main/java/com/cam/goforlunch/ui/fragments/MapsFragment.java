@@ -3,9 +3,13 @@ package com.cam.goforlunch.ui.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +19,18 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.cam.goforlunch.BuildConfig;
 import com.cam.goforlunch.R;
+import com.cam.goforlunch.data.api.GoogleAPIStreams;
+import com.cam.goforlunch.model.GooglePlaces;
+import com.cam.goforlunch.model.Restaurant;
+import com.cam.goforlunch.ui.ViewModel.MapsViewModel;
+import com.cam.goforlunch.ui.ViewModel.MapsViewModelFactory;
+import com.cam.goforlunch.ui.ViewModel.RestaurantViewModel;
+import com.cam.goforlunch.ui.ViewModel.RestaurantViewModelFactory;
+import com.cam.goforlunch.ui.activities.RestaurantDetailsActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,17 +39,25 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @BindView(R.id.map_view)
     MapView mapView;
+    private MapsViewModel viewModel;
+    public static final String SHARED_PREF_CURRENT_LATITUDE = "SHARED_PREF_CURRENT_LATITUDE";
+    public static final String SHARED_PREF_CURRENT_LONGITUDE = "SHARED_PREF_CURRENT_LONGITUDE";
 
     private GoogleMap googleMap;
 
@@ -51,6 +73,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private Location lastKnownLocation;
     private double currentLatitude;
     private double currentLongitude;
+    public static final String SHARED_PREF_CURRENT_LOCATION = "SHARED_PREF_CURRENT_LACATION";
+
+
 
     // Keys for storing fragment state
     private static final String KEY_LOCATION = "location";
@@ -68,24 +93,28 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
         }
 
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         ButterKnife.bind(this, view);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
-
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE);
+        viewModel = new ViewModelProvider(this, MapsViewModelFactory.getFactoryMapsInstance()).get(MapsViewModel.class);
 
         if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();
             mapView.getMapAsync(this);
         }
+
+
     }
 
     @Override
@@ -105,10 +134,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+
         // Ask for permission, get location and set position of the map, then execute Nearby Places request
         getLocationPermission();
         updateLocationUI();
         getDeviceLocation(map);
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String latitude = sharedPref.getString(MapsFragment.SHARED_PREF_CURRENT_LATITUDE, "");
+        String longitude= sharedPref.getString(MapsFragment.SHARED_PREF_CURRENT_LONGITUDE, "");
+        String location = latitude + "," + longitude;
+        viewModel.fetchRestaurant(location);
+
+        viewModel.getPositions().observe(getViewLifecycleOwner(), list ->{
+            for (LatLng position : list) {
+                googleMap.addMarker(new MarkerOptions()
+                        .position(position));
+            }
+        } );
+
     }
 
     // Get current location of the device and position the map's camera
@@ -128,7 +172,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                             new LatLng(currentLatitude, currentLongitude), DEFAULT_ZOOM));
 
-                    //executeSearchNearbyPlacesRequest(map);
+                    //enregistrer latitude et longitude dans sharedPreferencies
+                    SharedPreferences prefs = this.getActivity().getPreferences( Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(SHARED_PREF_CURRENT_LATITUDE, String.valueOf(currentLatitude));
+                    editor.putString(SHARED_PREF_CURRENT_LONGITUDE, String.valueOf(currentLongitude));
+                    editor.apply();
                 }
             });
 
@@ -183,4 +232,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             getLocationPermission();
         }
     }
+
+
 }

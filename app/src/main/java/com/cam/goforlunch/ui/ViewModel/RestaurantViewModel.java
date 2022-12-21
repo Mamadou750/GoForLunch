@@ -23,4 +23,8 @@ public class RestaurantViewModel extends ViewModel {
         return this.mRestaurantRepository.getRestaurants();
     }
 
+    public void fetchRestaurant(String location){
+        this.mRestaurantRepository.executeSearchNearbyPlacesRequest(location);
+    }
+
 }
