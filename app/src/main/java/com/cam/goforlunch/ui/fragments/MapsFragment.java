@@ -1,15 +1,12 @@
 package com.cam.goforlunch.ui.fragments;
 
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +18,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.cam.goforlunch.BuildConfig;
 import com.cam.goforlunch.R;
-import com.cam.goforlunch.data.api.GoogleAPIStreams;
-import com.cam.goforlunch.model.GooglePlaces;
-import com.cam.goforlunch.model.Restaurant;
 import com.cam.goforlunch.ui.ViewModel.MapsViewModel;
 import com.cam.goforlunch.ui.ViewModel.MapsViewModelFactory;
-import com.cam.goforlunch.ui.ViewModel.RestaurantViewModel;
-import com.cam.goforlunch.ui.ViewModel.RestaurantViewModelFactory;
-import com.cam.goforlunch.ui.activities.RestaurantDetailsActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,18 +32,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
-    @BindView(R.id.map_view)
+    @BindView(R.id.mapView)
     MapView mapView;
     private MapsViewModel viewModel;
     public static final String SHARED_PREF_CURRENT_LATITUDE = "SHARED_PREF_CURRENT_LATITUDE";

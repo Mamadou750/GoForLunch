@@ -21,9 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoForLunch"
         tools:targetApi="31">
-        <activity
-            android:name=".RestaurantDetailsActivity"
-            android:exported="false" />
+
+
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true">
