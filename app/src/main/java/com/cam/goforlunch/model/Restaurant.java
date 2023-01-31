@@ -144,11 +144,11 @@ public class Restaurant implements Serializable {
 
     }
 
-    // Add data from Details Request to Restaurant object
-    /*public void addDataFromDetailsRequest(Restaurant restaurant, GooglePlacesDetails.Result result) {
+     //Add data from Details Request to Restaurant object
+    public void addDataFromDetailsRequest(Restaurant restaurant, GooglePlacesDetails.Result result) {
 
         restaurant.rating = result.getRating();
         restaurant.phoneNumber = result.getFormattedPhoneNumber();
         restaurant.website = result.getWebsite();
-    }*/
+    }
 }

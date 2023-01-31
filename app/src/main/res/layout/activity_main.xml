@@ -15,6 +15,22 @@
         android:orientation="vertical">
 
 
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_page_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/go4LunchThemeColor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/white" />
+
+
 
 
         <FrameLayout

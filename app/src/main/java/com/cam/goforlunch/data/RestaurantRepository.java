@@ -37,43 +37,7 @@ public class RestaurantRepository {
     }
 
 
-    public void addRestaurant(
-            String name,
-            String address,
-            double rating,
-            double latitude,
-            double longitude,
-            int distance,
-            int nbWorkmates,
-            String phoneNumber,
-            String website,
-            String isOpenNow,
-            String imageUrl,
-            String placeId
-    ) {
-        List<Restaurant> restaurants = restaurantsLiveData.getValue();
 
-        if (restaurants == null) return;
-
-        restaurants.add(
-                new Restaurant (
-                        name,
-                        address,
-                        rating,
-                        latitude,
-                        longitude,
-                        distance,
-                        nbWorkmates,
-                        phoneNumber,
-                        website,
-                        isOpenNow,
-                        imageUrl,
-                        placeId
-                )
-        );
-
-        restaurantsLiveData.setValue(restaurants);
-    }
 
 
     private void createRestaurantList(List<GooglePlaces.Result> results) {

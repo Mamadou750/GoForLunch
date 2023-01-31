@@ -22,6 +22,6 @@ public class WorksmatesViewModel extends ViewModel {
     }
 
     public LiveData<List<User>> getUsers(){
-        return this.mUserRepository.getUsers();
+        return mUserRepository.getUsers();
     }
 }

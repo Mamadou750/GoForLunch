@@ -63,4 +63,6 @@
     <string name="notification_alone">Today, you\'re going to %s, %s !</string>
     <string name="notification_with_colleagues">Today, you\'re going to %s, %s with %s !</string>
     <string name="app_logo" translatable="false">App logo</string>
+    <string name="defaul_web_client_id" translatable="false"> 73464496184-2mbt6ltav5as3v7d2i91i8paia8m9i2g.apps.googleusercontent.com </string>
+
 </resources>
