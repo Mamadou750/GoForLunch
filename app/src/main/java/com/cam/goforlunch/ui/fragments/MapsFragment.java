@@ -146,6 +146,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         if (locationPermissionGranted) {
 
+
+
             @SuppressLint("MissingPermission") Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
             locationResult.addOnCompleteListener(requireActivity(), task -> {
 
@@ -153,10 +155,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                     // Set the map's camera
                     lastKnownLocation = task.getResult();
-                    currentLatitude = Objects.requireNonNull(lastKnownLocation).getLatitude();
-                    currentLongitude = lastKnownLocation.getLongitude();
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                            new LatLng(currentLatitude, currentLongitude), DEFAULT_ZOOM));
+                    if (lastKnownLocation != null) {
+                        currentLatitude = Objects.requireNonNull(lastKnownLocation).getLatitude();
+                        currentLongitude = lastKnownLocation.getLongitude();
+                    } else {
+                        currentLatitude = 48.856613;
+                        currentLongitude = 2.352222;
+                    }
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                new LatLng(currentLatitude, currentLongitude), DEFAULT_ZOOM));
+
 
                     //register latitude et longitude dans sharedPreferences
                     SharedPreferences prefs = this.getActivity().getPreferences( Context.MODE_PRIVATE);
