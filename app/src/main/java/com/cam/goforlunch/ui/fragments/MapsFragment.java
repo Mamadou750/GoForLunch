@@ -59,7 +59,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private Location lastKnownLocation;
     private double currentLatitude;
     private double currentLongitude;
-    public static final String SHARED_PREF_CURRENT_LOCATION = "SHARED_PREF_CURRENT_LACATION";
+    public static final String SHARED_PREF_CURRENT_LOCATION = "SHARED_PREF_CURRENT_LOCATION";
 
 
 
@@ -158,7 +158,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                             new LatLng(currentLatitude, currentLongitude), DEFAULT_ZOOM));
 
-                    //enregistrer latitude et longitude dans sharedPreferencies
+                    //register latitude et longitude dans sharedPreferences
                     SharedPreferences prefs = this.getActivity().getPreferences( Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString(SHARED_PREF_CURRENT_LATITUDE, String.valueOf(currentLatitude));
