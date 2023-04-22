@@ -1,29 +1,39 @@
 package com.cam.goforlunch.ui.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
 
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cam.goforlunch.BuildConfig;
 import com.cam.goforlunch.R;
 import com.cam.goforlunch.data.UserRepository;
-import com.cam.goforlunch.model.Restaurant;
-import com.cam.goforlunch.model.User;
+import com.cam.goforlunch.data.api.DeleteReceiver;
 import com.cam.goforlunch.ui.fragments.MapsFragment;
 import com.cam.goforlunch.ui.fragments.RestaurantListFragment;
 import com.cam.goforlunch.ui.fragments.WorksmatesFragment;
-import com.google.android.gms.maps.MapFragment;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.fido.fido2.api.common.RequestOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
@@ -33,8 +43,10 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -69,12 +81,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!Places.isInitialized())
             Places.initialize(this, BuildConfig.MAPS_API_KEY);
 
-
+        updateUIWhenCreating();
         navigationView.setNavigationItemSelectedListener(this);
         configureDrawerLayout();
         configureBottomNavigationView();
+        configureDeleteAlarmManager();
 
 
+    }
+
+    @Nullable
+    private FirebaseUser getCurrentUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
 
@@ -175,19 +193,75 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // Start selected RestaurantDetailsActivity
     private void startChosenRestaurantDetailsActivity() {
-        UserRepository.getUser(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).addOnSuccessListener(documentSnapshot -> {
-            User currentUser = documentSnapshot.toObject(User.class);
-            Restaurant restaurant = Objects.requireNonNull(currentUser).getChosenRestaurant();
-            Intent intent = new Intent(MainActivity.this, RestaurantDetailsActivity.class);
-            intent.putExtra("RESTAURANT", restaurant);
-            startActivity(intent);
-        });
 
     }
 
     // Log out user and update UI
     private void signOutFromFirebase() {
+        AuthUI.getInstance().signOut(this).addOnSuccessListener(this, this.updateUIAfterRESTRequestsCompleted());
+    }
 
+    private OnSuccessListener<Void> updateUIAfterRESTRequestsCompleted() {
+
+        return aVoid -> MainActivity.this.finish();
+    }
+
+    private void updateUIWhenCreating() {
+
+        // Configure views if current user is not null
+        if (getCurrentUser() != null) {
+
+            View header = navigationView.getHeaderView(0);
+            ImageView headerUserImage = header.findViewById(R.id.header_user_image);
+            TextView headerUserName = header.findViewById(R.id.header_user_name);
+            TextView headerUserEmail = header.findViewById(R.id.header_user_email);
+
+            // Get user profile picture from Firebase, or set blank profile picture
+            if (getCurrentUser().getPhotoUrl() != null) {
+
+                Glide.with(this)
+                        .load(getCurrentUser().getPhotoUrl())
+                        .into(headerUserImage);
+            } else {
+
+                Glide.with(this)
+                        .load(R.drawable.blank_profile)
+                        .into(headerUserImage);
+            }
+
+            // Get data from Firebase, and update views
+            UserRepository.getUser(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                    .addOnSuccessListener(documentSnapshot -> {
+
+                        String username = TextUtils.isEmpty(getCurrentUser().getDisplayName()) ?
+                                getString(R.string.no_username_found) : FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                        String email = TextUtils.isEmpty(getCurrentUser().getEmail()) ?
+                                getString(R.string.no_email_found) : FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                        headerUserName.setText(username);
+                        headerUserEmail.setText(email);
+
+                    });
+        }
+
+    }
+
+    // Create AlarmManager to plan the deleting of all chosen restaurants everyday at 4:00 PM
+    private void configureDeleteAlarmManager() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
+
+        Intent intent = new Intent(MainActivity.this, DeleteReceiver.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 2, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
     }
 
 

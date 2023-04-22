@@ -9,12 +9,24 @@ import com.cam.goforlunch.BuildConfig;
 import com.cam.goforlunch.data.api.GoogleAPIStreams;
 import com.cam.goforlunch.model.GooglePlacesDetails;
 import com.cam.goforlunch.model.Restaurant;
+import com.cam.goforlunch.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
 
 public class DetailsRepository {
 
     private final MutableLiveData <Restaurant> restaurantLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<User>> usersChousenLiveData = new MutableLiveData<>(new ArrayList<>());
+    private  RestaurantRepository restaurantRepository = new RestaurantRepository();
+    List<User> workmatesList = new ArrayList<>();
+    List<User> allWorkmatesList = new ArrayList<>();
 
 
     public DetailsRepository() {
@@ -24,6 +36,47 @@ public class DetailsRepository {
     public LiveData<Restaurant> getRestaurant(){
         return restaurantLiveData;
     }
+    private static CollectionReference getUsersCollection() {
+        return FirebaseFirestore.getInstance().collection("users");
+    }
+
+    public LiveData<List<User>> getChousenUsers(Restaurant restaurant){
+        getUsersCollection().get().addOnCompleteListener(task -> {
+            workmatesList.clear();
+            allWorkmatesList.clear();
+            if (task.isSuccessful()){
+                allWorkmatesList.addAll(task.getResult().toObjects(User.class));
+                for (User user :task.getResult().toObjects(User.class) ) {
+
+
+                    if (user.getChosenRestaurant() != null && user.getChosenRestaurant().getPlaceId().equals(restaurant.getPlaceId())) {
+                        workmatesList.add(user);
+
+                    }
+                }
+                usersChousenLiveData.setValue(workmatesList);
+            }else {
+                Log.d("erreur","erreur");
+            }
+        });
+        return usersChousenLiveData;
+    }
+
+    private FirebaseUser getCurrentUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+
+    public void addOrRemoveFromList (boolean isRemove){
+        if (isRemove){
+            workmatesList.remove(getCurrentUser());
+        }
+        else {
+            workmatesList.add((User.class).cast(getCurrentUser()));
+        }
+        usersChousenLiveData.setValue(workmatesList);
+    }
+
 
 
     // Execute HTTP request to retrieve more information from the place
@@ -37,7 +90,10 @@ public class DetailsRepository {
                     @Override
                     public void onNext(GooglePlacesDetails googlePlacesDetails) {
 
+
+
                         restaurant.addDataFromDetailsRequest(restaurant, googlePlacesDetails.getResult());
+                        restaurantLiveData.setValue(restaurant);
 
                     }
 

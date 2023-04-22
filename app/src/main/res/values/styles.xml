@@ -11,5 +11,6 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">true</item>
     </style>
+    <style name="MySuperAppTheme"></style>
 
 </resources>

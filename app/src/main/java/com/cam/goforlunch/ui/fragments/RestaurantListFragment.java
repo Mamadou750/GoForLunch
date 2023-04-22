@@ -1,6 +1,7 @@
 package com.cam.goforlunch.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import com.cam.goforlunch.R;
 import com.cam.goforlunch.model.Restaurant;
 import com.cam.goforlunch.ui.ViewModel.RestaurantViewModel;
 import com.cam.goforlunch.ui.ViewModel.RestaurantViewModelFactory;
+import com.cam.goforlunch.ui.activities.MainActivity;
+import com.cam.goforlunch.ui.activities.RestaurantDetailsActivity;
 import com.cam.goforlunch.ui.adapter.RestaurantItemAdapter;
 
 import java.util.ArrayList;
@@ -65,7 +68,10 @@ public class RestaurantListFragment extends Fragment implements RestaurantItemAd
 
     @Override
     public void recyclerViewOnClick(int position) {
-
+        Restaurant restaurant = lRestaurants.get(position);
+        Intent intent = new Intent(getActivity(), RestaurantDetailsActivity.class);
+        intent.putExtra("RESTAURANT", restaurant);
+        startActivity(intent);
     }
 
     private void updateRestaurant(List<Restaurant> restaurants) {

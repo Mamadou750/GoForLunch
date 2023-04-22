@@ -30,17 +30,12 @@ public class RestaurantItemAdapter extends RecyclerView.Adapter <RestaurantItemA
     private  List<Restaurant> restaurantsList;
     private final RecyclerViewOnClickListener listener;
 
-
-
-
-
     public RestaurantItemAdapter(@NonNull final List<Restaurant> restaurantsList, @NonNull final RecyclerViewOnClickListener listener) {
 
         this.restaurantsList = restaurantsList;
         this.listener = listener;
 
     }
-
 
     public void updateRestaurants(@NonNull final List<Restaurant> restaurantsList) {
         this.restaurantsList = restaurantsList;

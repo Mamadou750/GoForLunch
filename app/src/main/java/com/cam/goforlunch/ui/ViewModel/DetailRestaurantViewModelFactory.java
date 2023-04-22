@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cam.goforlunch.data.DetailsRepository;
+import com.cam.goforlunch.data.RestaurantRepository;
+import com.cam.goforlunch.data.UserRepository;
 
 public class DetailRestaurantViewModelFactory implements ViewModelProvider.Factory  {
     private static DetailRestaurantViewModelFactory factoryDetailRestaurant;
@@ -16,6 +18,9 @@ public class DetailRestaurantViewModelFactory implements ViewModelProvider.Facto
                 if (factoryDetailRestaurant == null) {
                     factoryDetailRestaurant = new DetailRestaurantViewModelFactory(
                             new DetailsRepository(
+
+                            ),
+                            new UserRepository(
 
                             )
                     );
@@ -31,11 +36,13 @@ public class DetailRestaurantViewModelFactory implements ViewModelProvider.Facto
 
     @NonNull
     private final DetailsRepository detailsRepository;
+    private final UserRepository userRepository;
 
 
 
-    private DetailRestaurantViewModelFactory(@NonNull DetailsRepository detailsRepository) {
+    private DetailRestaurantViewModelFactory(@NonNull DetailsRepository detailsRepository, UserRepository userRepository) {
         this.detailsRepository = detailsRepository;
+        this.userRepository = userRepository;
     }
 
     @SuppressWarnings("unchecked")
@@ -44,7 +51,8 @@ public class DetailRestaurantViewModelFactory implements ViewModelProvider.Facto
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(DetailRestaurantViewModel.class)) {
             return (T) new DetailRestaurantViewModel(
-                    detailsRepository
+                    detailsRepository,
+                    userRepository
             );
         } //else if (modelClass.isAssignableFrom(UserViewModel.class)) {
         //return (T) new UserViewModel(

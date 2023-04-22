@@ -1,5 +1,7 @@
 package com.cam.goforlunch.data;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -18,6 +20,8 @@ import java.util.List;
 public class UserRepository {
 
     private final MutableLiveData<List<User>> usersLiveData = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData <User> userLiveData = new MutableLiveData<>();
+
 
 
     public UserRepository() {
@@ -26,18 +30,36 @@ public class UserRepository {
 
     }
 
+    // COLLECTION REFERENCE
+    private static CollectionReference getUsersCollection() {
+        return FirebaseFirestore.getInstance().collection("users");
+    }
+
     public LiveData<List<User>> getUsers(){
+        getUsersCollection().get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                usersLiveData.setValue(task.getResult().toObjects(User.class));
+            }else {
+                Log.d("erreur","erreur");
+            }
+        });
         return usersLiveData;
     }
 
-
-
-
-
+    public LiveData <User> getOneUser(String uid){
+        getUsersCollection().document(uid).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()){
+                userLiveData.setValue(documentSnapshot.toObject(User.class));
+            }else {
+                userLiveData.setValue(null);
+            }
+        });
+        return userLiveData;
+    }
 
 
     // COLLECTION REFERENCE
-    private static CollectionReference getUsersCollection() {
+    private static CollectionReference getUsersCollections() {
         return FirebaseFirestore.getInstance().collection("users");
     }
 
@@ -50,21 +72,21 @@ public class UserRepository {
 
     // GET
     public static Task<DocumentSnapshot> getUser(String uid) {
-        return UserRepository.getUsersCollection().document(uid).get();
+        return UserRepository.getUsersCollections().document(uid).get();
     }
 
     public static Task<QuerySnapshot> getAllUsers() {
-        return UserRepository.getUsersCollection().get();
+        return UserRepository.getUsersCollections().get();
     }
 
     // UPDATE
     public static Task<Void> addLikedRestaurant(String uid, Restaurant restaurant) {
-        return UserRepository.getUsersCollection().document(uid).update("likedRestaurants",
+        return UserRepository.getUsersCollections().document(uid).update("likedRestaurants",
                 FieldValue.arrayUnion(restaurant));
     }
 
     public static Task<Void> updateChosenRestaurant(String uid, Restaurant restaurant) {
-        return UserRepository.getUsersCollection().document(uid).update("chosenRestaurant", restaurant);
+        return UserRepository.getUsersCollections().document(uid).update("chosenRestaurant", restaurant);
     }
 
     public static void updateNotificationChoice(String uid, boolean isEnabled) {
@@ -74,12 +96,12 @@ public class UserRepository {
 
     // DELETE
     public static Task<Void> removeLikedRestaurant(String uid, Restaurant restaurant) {
-        return UserRepository.getUsersCollection().document(uid).update("likedRestaurants",
+        return UserRepository.getUsersCollections().document(uid).update("likedRestaurants",
                 FieldValue.arrayRemove(restaurant));
     }
 
     public static void deleteUser(String uid) {
-        UserRepository.getUsersCollection().document(uid).delete();
+        UserRepository.getUsersCollections().document(uid).delete();
     }
 
 }
