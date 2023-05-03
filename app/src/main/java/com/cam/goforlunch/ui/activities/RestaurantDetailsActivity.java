@@ -1,6 +1,7 @@
 package com.cam.goforlunch.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -93,6 +94,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
+
     // Update activity with restaurant data
     private void updateData(Restaurant restaurantDetail) {
 
@@ -151,7 +157,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         // Remove restaurant from database and switch buttons
         uncheckFloatingActionButton.setOnClickListener(v ->UserRepository.updateChosenRestaurant(FirebaseAuth.getInstance().getCurrentUser().getUid(), null)
                 .addOnSuccessListener(aVoid -> {
-                    viewModel.addRemoveFromList(checkFloatingActionButton.isActivated());
+                    viewModel.addRemoveFromList(!checkFloatingActionButton.isActivated());
                     uncheckFloatingActionButton.hide();
                     checkFloatingActionButton.show();
                 }));

@@ -68,11 +68,14 @@ public class DetailsRepository {
 
 
     public void addOrRemoveFromList (boolean isRemove){
+        User user= new User();
+        user.setUsername(getCurrentUser().getDisplayName());
         if (isRemove){
-            workmatesList.remove(getCurrentUser());
+            workmatesList.remove(user);
         }
         else {
-            workmatesList.add((User.class).cast(getCurrentUser()));
+
+            workmatesList.add(user);
         }
         usersChousenLiveData.setValue(workmatesList);
     }

@@ -21,12 +21,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cam.goforlunch.BuildConfig;
 import com.cam.goforlunch.R;
 import com.cam.goforlunch.data.UserRepository;
 import com.cam.goforlunch.data.api.DeleteReceiver;
+import com.cam.goforlunch.model.Restaurant;
+import com.cam.goforlunch.model.User;
 import com.cam.goforlunch.ui.fragments.MapsFragment;
 import com.cam.goforlunch.ui.fragments.RestaurantListFragment;
 import com.cam.goforlunch.ui.fragments.WorksmatesFragment;
@@ -39,6 +42,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -172,11 +176,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Get place from Autocomplete Intent and create Restaurant from place data
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+
+                Place place = Autocomplete.getPlaceFromIntent(Objects.requireNonNull(data));
+
+                Intent intent = new Intent(this, RestaurantDetailsActivity.class);
+                intent.putExtra("RESTAURANT", createRestaurantFromPlaceAutocomplete(place));
+                startActivity(intent);
+
+            }
+
+        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+
+            Toast.makeText(this, R.string.error_unknown_error, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Create Restaurant object from Autocomplete Place object
+    private Restaurant createRestaurantFromPlaceAutocomplete(Place place) {
+
+        String imageBaseUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=300&photoreference=";
+
+        Restaurant restaurant = new Restaurant();
+
+        restaurant.setPlaceId(place.getId());
+        restaurant.setName(place.getName());
+        restaurant.setAddress(place.getAddress());
+        if (place.getWebsiteUri() != null) restaurant.setWebsite(place.getWebsiteUri().toString());
+        restaurant.setPhoneNumber(place.getPhoneNumber());
+
+        if (place.getPhotoMetadatas() != null)
+            restaurant.setImageUrl(imageBaseUrl + place.getPhotoMetadatas().get(0).zza() + "&key=" + BuildConfig.MAPS_API_KEY);
+
+        return restaurant;
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
         switch (menuItem.getItemId()) {
 
-            // Open restaurant details
+            case R.id.main_page_drawer_settings:
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                break;
+
+            // Open ChosenRestaurantDetailsActivity
             case R.id.main_page_drawer_lunch:
                 startChosenRestaurantDetailsActivity();
                 break;
@@ -194,6 +245,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Start selected RestaurantDetailsActivity
     private void startChosenRestaurantDetailsActivity() {
 
+        UserRepository.getUser(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).addOnSuccessListener(documentSnapshot -> {
+
+            User currentUser = documentSnapshot.toObject(User.class);
+
+            Restaurant restaurant = Objects.requireNonNull(currentUser).getChosenRestaurant();
+
+            if (restaurant != null) {
+                Intent intent = new Intent(MainActivity.this, RestaurantDetailsActivity.class);
+                intent.putExtra("RESTAURANT", restaurant);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), getString(R.string.no_restaurant_selected), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Log out user and update UI
