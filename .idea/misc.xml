@@ -3,9 +3,39 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/108ccd5ccd10bc452d61550b8a419db5/transformed/material-1.9.0/res/drawable/avd_hide_password.xml" value="0.1855" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/108ccd5ccd10bc452d61550b8a419db5/transformed/material-1.9.0/res/layout/design_bottom_navigation_item.xml" value="0.3442028985507246" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/108ccd5ccd10bc452d61550b8a419db5/transformed/material-1.9.0/res/layout/design_text_input_end_icon.xml" value="0.3442028985507246" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/108ccd5ccd10bc452d61550b8a419db5/transformed/material-1.9.0/res/layout/m3_alert_dialog.xml" value="0.3442028985507246" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_activity_register_email.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_activity_register_phone.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_auth_method_picker_layout.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_check_email_layout.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_confirmation_code_layout.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_dgts_country_row.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_email_link_sign_in_layout.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_email_link_trouble_signing_in_layout.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_forgot_password_layout.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_provider_button_email.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/37964803451d42821ebeac6b27e877b3/transformed/jetified-firebase-ui-auth-7.2.0/res/layout/fui_register_email_layout.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/535925febc97640cc20de4f502d9df3a/transformed/jetified-play-services-auth-20.5.0/res/drawable-watch-v20/common_google_signin_btn_text_dark_normal.xml" value="0.1855" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/535925febc97640cc20de4f502d9df3a/transformed/jetified-play-services-auth-20.5.0/res/drawable-watch-v20/common_google_signin_btn_text_disabled.xml" value="0.1855" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/535925febc97640cc20de4f502d9df3a/transformed/jetified-play-services-auth-20.5.0/res/drawable-watch-v20/common_google_signin_btn_text_light_normal.xml" value="0.1855" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/5dbfeba9d98bdc95d179843305d7d6a5/transformed/material-1.8.0/res/layout/design_text_input_end_icon.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/5dbfeba9d98bdc95d179843305d7d6a5/transformed/material-1.8.0/res/layout/design_text_input_start_icon.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/.gradle/caches/transforms-3/5dbfeba9d98bdc95d179843305d7d6a5/transformed/material-1.8.0/res/layout/m3_alert_dialog.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/activity_log.xml" value="0.33" />
         <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/activity_login.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/activity_main.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/activity_main_page_nav_header.xml" value="0.3625" />
+        <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/activity_restaurant_details.xml" value="0.3625" />
+        <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/activity_settings.xml" value="0.3625" />
         <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/fragment_list.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/fragment_maps.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/fragment_worksmates.xml" value="0.23020833333333332" />
+        <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/list_layout.xml" value="0.25" />
+        <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/layout/worksmates_layout.xml" value="0.25" />
+        <entry key="..\:/Users/aliou/OneDrive/Documents/GitHub/GoForLunch/app/src/main/res/menu/activity_main_page_drawer.xml" value="0.3625" />
       </map>
     </option>
   </component>
