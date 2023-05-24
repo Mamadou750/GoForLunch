@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "158012632501",
+    "project_id": "goforlunch-28e40",
+    "storage_bucket": "goforlunch-28e40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158012632501:android:5cbbe94c702fb90bfefdfc",
+        "android_client_info": {
+          "package_name": "com.cams.goforlunch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158012632501-jjp14ko8npissh1godrk4oj7acjpnhkj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cams.goforlunch",
+            "certificate_hash": "e5ac65a6339865ce0f3218f87a5257b9f0a1639c"
+          }
+        },
+        {
+          "client_id": "158012632501-5vu823t753lclmq2p4nf2s66obsisfs0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgR6Cboh0AJivpZfOL3sWq_lFTrqGYKb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158012632501-5vu823t753lclmq2p4nf2s66obsisfs0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
