@@ -26,11 +26,7 @@ public class ExampleUnitTest {
     private String isOpenNow;
     private String imageUrl;
     private String placeId;
-
     private Restaurant restaurant;
-
-
-
 
 
     @Before
@@ -100,6 +96,10 @@ public class ExampleUnitTest {
         assertEquals(restaurant.getIsOpenNow(), createRestaurant.getIsOpenNow());
         assertEquals(restaurant.getImageUrl(), createRestaurant.getImageUrl());
         assertEquals(restaurant.getPlaceId(), createRestaurant.getPlaceId());
+        assertEquals(restaurant.getWebsite(), createRestaurant.getWebsite());
+        assertEquals(restaurant.getRating(), createRestaurant.getRating());
+        assertEquals(restaurant.getNbWorkmates(), restaurant.getNbWorkmates());
+        assertEquals(restaurant.getIsOpenNow(), restaurant.getIsOpenNow());
 
     }
     
