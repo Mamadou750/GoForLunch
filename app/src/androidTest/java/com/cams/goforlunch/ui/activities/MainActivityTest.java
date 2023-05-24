@@ -87,7 +87,6 @@ public class MainActivityTest {
 
         onView(withId(R.id.list_restaurants))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(POSITION_ITEM, click()));
-
         onView(ViewMatchers.withId(R.id.restaurant_details_recycler_view)).check(matches(isDisplayed()));
 
     }
